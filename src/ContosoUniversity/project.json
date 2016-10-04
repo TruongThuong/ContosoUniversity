@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-ContosoUniversity-70b5cf66-964f-40d5-894f-d9c1c2e5a2c9",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.EntityFrameworkCore": "1.0.1"
   },
 
   "tools": {
