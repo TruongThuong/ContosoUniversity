@@ -10,6 +10,7 @@ namespace ContosoUniversity.Models
         public int ID { get; set; }
         public string LastName { get; set; }
 
+        [Display(Name = "First Mid Name")]
         public string FirstMidName { get; set; }
         [Display(Name = "Enrollment Date")]
         public DateTime EnrollmentDate { get; set; }
