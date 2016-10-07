@@ -20,9 +20,39 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder = "creadit_asc")
         {
-            return View(await _context.Courses.ToListAsync());
+
+            ViewData["CreaditSortParm"] = sortOrder == "creadit_asc" ? "creadit_desc" : "creadit_asc";
+            ViewData["TitleSortParm"] = sortOrder == "title_asc" ? "title_desc" : "title_asc";
+            //var students = from s in _context.Students
+            //               select s;
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    students = students.Where(s => s.LastName.Contains(searchString)
+            //                           || s.FirstMidName.Contains(searchString));
+            //}
+            IOrderedQueryable<Course> courses = null;
+
+            switch (sortOrder)
+            {
+                case "creadit_desc":
+                    courses = _context.Courses.OrderByDescending(s => s.Credits);
+                    break;
+                case "title_desc":
+                    courses = _context.Courses.OrderByDescending(s => s.Title);
+                    break;
+                case "creadit_asc":
+                    courses = _context.Courses.OrderBy(s => s.Credits);
+                    break;
+                case "title_asc":
+                    courses = _context.Courses.OrderBy(s => s.Title);
+                    break;
+                default:
+                    courses = _context.Courses.OrderBy(s => s.CourseID);
+                    break;
+            }
+            return View(await courses.ToListAsync());
         }
 
         // GET: Courses/Details/5

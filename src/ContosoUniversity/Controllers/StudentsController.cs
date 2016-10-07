@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ContosoUniversity.Data;
@@ -17,11 +18,36 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder="name_asc")
         {
-            return View(await _context.Students.ToListAsync());
-        }
+            ViewData["NameSortParm"] = sortOrder=="name_asc" ? "name_desc" : "name_asc";
+            ViewData["DateSortParm"] = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            //var students = from s in _context.Students
+            //               select s;
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    students = students.Where(s => s.LastName.Contains(searchString)
+            //                           || s.FirstMidName.Contains(searchString));
+            //}
+            IOrderedQueryable<Student> students = null;
 
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = _context.Students.OrderByDescending(s => s.LastName);
+                    break;
+                case "Date":
+                    students = _context.Students.OrderBy(s => s.EnrollmentDate);
+                    break;
+                case "date_desc":
+                    students = _context.Students.OrderByDescending(s => s.EnrollmentDate);
+                    break;
+                default:
+                    students = _context.Students.OrderBy(s => s.LastName);
+                    break;
+            }
+            return View(await students.AsNoTracking().ToListAsync());
+        }
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {

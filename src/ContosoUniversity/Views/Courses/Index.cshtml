@@ -12,11 +12,15 @@
 <table class="table">
     <thead>
         <tr>
+            <th>@Html.DisplayNameFor(model => model.CourseID)</th>
+            
+
             <th>
-                @Html.DisplayNameFor(model => model.Credits)
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.CreaditSortParm"> @Html.DisplayNameFor(model => model.Credits)</a>
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.TitleSortParm"> @Html.DisplayNameFor(model => model.Title)</a>
             </th>
             <th></th>
         </tr>
@@ -24,6 +28,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseID)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Credits)
             </td>
